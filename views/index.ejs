@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Title of the document</title>
+</head>
+
+<style>
+    p{
+        font-size: 20px;
+    }
+    div.header {
+        margin: 20px 0px 0px 100px;
+    }
+    div.content{
+        margin: 100px 0px 0px 100px;
+    }
+</style>
+
+<body>
+    <div class="header">
+        <h1>Hello world this is a workshop for mongoDB</h1>
+        <br>
+        <p>We will introduce a few excersizes so you can get comfortable with mongoDB.</p>
+
+    </div>
+    <div class="content">
+        <p><b>Exersize 1:</b> The first exersize would be to display a list of books from the database called workshop
+            After you have written the code for displaying the text you should be able to see the list of the books after you refresh this site.
+        </p>
+        <br>
+        <ul>
+            <% for(var i=0; i<resultsEx1.length; i++) {%>
+                <li><%= resultsEx1[i].Title %></li>
+            <% } %>
+            
+            
+        </ul>
+
+    </div>
+    <div class="content">
+        <p><b>Exersize 2:</b> Your next task is to insert yourself as a user in the collection called Users and display the outputted data. You must upload your firstname and lastname in these respected fields.
+        </p>
+        <br>
+        <ul>
+            <% resultsEx2.forEach(function( resultEx2){ %>
+                <li> <%= resultEx2.firstname %>  <%= resultEx2.lastname %> </li>
+            <% }) %>
+        </ul>
+
+    </div>
+    <div class="content">
+        <p><b>Exersize 3:</b> You now have to rent the book called The Road by updating your user and save the books id to your user.
+        </p>
+        <br>
+        <ul>
+            <% resultsEx3.forEach(function( resultEx3){ %>
+                <li> <%= resultEx3.firstname %>  <%= resultEx3.lastname %> <%= resultEx3.bookId %> </li>
+            <% }) %>
+        </ul>
+
+    </div>
+</body>
+
+</html>

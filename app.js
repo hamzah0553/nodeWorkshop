@@ -1,34 +1,51 @@
 const http = require('http');
+const express = require('express');
+const app = express();
 const mongoClient = require('./mongodb');
-const hostname = 'localhost';
 const port = 3000;
+const waterfall = require('async-waterfall');
 
-mongoClient.connect(err => {
-    const userCollection = mongoClient.db("workshop").collection("Books");
-    userCollection.insertMany([
-        {Title:"The Road",Isbn:9780307387899,Author:"Cormac McCarthy",Type:"Fiction",Description:["A father and his son walk alone through burned America. Nothing moves in the ravaged landscape save the ash on the wind. It is cold enough to crack stones, and when the snow falls it is gray. The sky is dark. Their destination is the coast, although they don't know what, if anything, awaits them there. They have nothing; just a pistol to defend themselves against the lawless bands that stalk the road, the clothes they are wearing, a cart of scavenged food—and each other.","The Road is the profoundly moving story of a journey. It boldly imagines a future in which no hope remains, but in which the father and his son, \"each the other's world entire,\" are sustained by love. Awesome in the totality of its vision, it is an unflinching meditation on the worst and the best that we are capable of: ultimate destructiveness, desperate tenacity, and the tenderness that keeps two people alive in the face of total devastation."]},
-        {Title:"Einstein: His Life and Universe",Isbn:9780743264747,Author:"Walter Isaacson",Type:"Biography",Description:["By the author of the acclaimed bestsellers Benjamin Franklin and Steve Jobs, this is the definitive biography of Albert Einstein. ","How did his mind work? What made him a genius? Isaacson’s biography shows how his scientific imagination sprang from the rebellious nature of his personality. His fascinating story is a testament to the connection between creativity and freedom.","Based on newly released personal letters of Einstein, this book explores how an imaginative, impertinent patent clerk—a struggling father in a difficult marriage who couldn’t get a teaching job or a doctorate—became the mind reader of the creator of the cosmos, the locksmith of the mysteries of the atom, and the universe. His success came from questioning conventional wisdom and marveling at mysteries that struck others as mundane. This led him to embrace a morality and politics based on respect for free minds, free spirits, and free individuals.","These traits are just as vital for this new century of globalization, in which our success will depend on our creativity, as they were for the beginning of the last century, when Einstein helped usher in the modern age."]},
-        {Title:"201: A Space Odyssey",Isbn:9780451452733,Author:"Arthur C. Clarke",Type:"Fiction",Description:["From the savannas of Africa at the dawn of mankind to the rings of Saturn as man ventures to the outer rim of our solar system, 2001: A Space Odyssey is a journey unlike any other.","This allegory about humanity’s exploration of the universe—and the universe’s reaction to humanity—is a hallmark achievement in storytelling that follows the crew of the spacecraft Discovery as they embark on a mission to Saturn. Their vessel is controlled by HAL 9000, an artificially intelligent supercomputer capable of the highest level of cognitive functioning that rivals—and perhaps threatens—the human mind.","Grappling with space exploration, the perils of technology, and the limits of human power, 2001: A Space Odyssey continues to be an enduring classic of cinematic scope."]},
-        {Title:"Becoming",Isbn:9780525633754,Author:"Michelle Obama",Type:"Biography",Description:["In a life filled with meaning and accomplishment, Michelle Obama has emerged as one of the most iconic and compelling women of our era. As First Lady of the United States of America—the first African American to serve in that role—she helped create the most welcoming and inclusive White House in history, while also establishing herself as a powerful advocate for women and girls in the U.S. and around the world, dramatically changing the ways that families pursue healthier and more active lives, and standing with her husband as he led America through some of its most harrowing moments. Along the way, she showed us a few dance moves, crushed Carpool Karaoke, and raised two down-to-earth daughters under an unforgiving media glare. ","In her memoir, a work of deep reflection and mesmerizing storytelling, Michelle Obama invites readers into her world, chronicling the experiences that have shaped her—from her childhood on the South Side of Chicago to her years as an executive balancing the demands of motherhood and work, to her time spent at the world’s most famous address. With unerring honesty and lively wit, she describes her triumphs and her disappointments, both public and private, telling her full story as she has lived it—in her own words and on her own terms. Warm, wise, and revelatory, Becoming is the deeply personal reckoning of a woman of soul and substance who has steadily defied expectations—and whose story inspires us to do the same."]},
-        {Title:"The Hitchhiker's Guide to the Galaxy",Isbn:9780345391803,Author:["Douglas Adams"],Type:"Fiction",Description:["Seconds before Earth is demolished to make way for a galactic freeway, Arthur Dent is plucked off the planet by his friend Ford Prefect, a researcher for the revised edition of The Hitchhiker’s Guide to the Galaxy who, for the last fifteen years, has been posing as an out-of-work actor.","Together, this dynamic pair began a journey through space aided by a galaxyful of fellow travelers: Zaphod Beeblebrox—the two-headed, three-armed ex-hippie and totally out-to-lunch president of the galaxy; Trillian (formerly Tricia McMillan), Zaphod’s girlfriend, whom Arthur tried to pick up at a cocktail party once upon a time zone; Marvin, a paranoid, brilliant, and chronically depressed robot; and Veet Voojagig, a former graduate student obsessed with the disappearance of all the ballpoint pens he’s bought over the years.","Where are these pens? Why are we born? Why do we die? For all the answers, stick your thumb to the stars!"]},
-        {Title:"Software Testing: An ISTQB-BCS Certified Tester Foundation Guide",Isbn:9781780172996,Author:["Brian Hambling","Peter Morgan","Angelina Samaroo","Geoff Thompson","Peter Williams Brian Hambling"],Type:"Academic",Description:["This best-selling software testing title explains the basic steps of software testing and how to perform effective tests. It provides an overview of different techniques, both dynamic and static. It is the only official textbook of the ISTQB-BCS Certified Tester Foundation Level, with self-assessment exercises, guidance notes on the syllabus topics with sample examination questions. This third edition includes examples and exercises reflecting current technology and applications, such as the use of open source software, component-based and agile development and application building for mobile devices. It is ideal for those with a little experience of software testing who wish to cement their knowledge with industry-recognised techniques and theory."]}
-    ]); 
+//Please use the corrosponding variable to the exersizes so you dont mix it up
+var dataEx1 = [];
+var dataEx2 = [];
+var dataEx3 = [];
 
-    const commentCollection = mongoClient.db("Practice").collection("Comments");
-    commentCollection.find();
-    mongoClient.close();
-});
+app.set('view engine', 'ejs');
+
+async function callbackHell() {
+  await mongoClient.connect (async err => {
+
+      //Exersize 1: the code for finishing exersize 1 is here
+      booksCollection = mongoClient.db("workshop").collection("Books");
+      dataEx1 = booksCollection.find().toArray();
+
+      //Exersize 2: the code for finishing exersize 2 is supposed to be here 
+      //Remember to run the insert query only once so duplication is not added
+      //mongoClient.db("workshop").collection("Users").insert({firstname: "HEMZEH", lastname: "HUSSEIN"}).toArray();
+      dataEx2 = mongoClient.db("workshop").collection("Users").find({firstname: "HEMZEH"}).toArray();
+      //Exersize 3: the code for finishing exersize 3 is supposed to be here
+      var book = await booksCollection.find({Title: "The Road"}).toArray();
+      var bookId = book[0]._id;
+      console.log(bookId);
+      mongoClient.db("workshop").collection("Users").update({firstname: "HEMZEH"}, {$set: {bookId: bookId}});
+  
+  });
+ }
+
+  app.get('/', async function(req, res) {
+    callbackHell();
+    console.log(dataEx1);
+    console.log(await dataEx2);
+    res.render('index', {
+      resultsEx1: await dataEx1,
+      resultsEx2: await dataEx2,
+      resultsEx3: await dataEx3
+    });
+    
+  });
  
-const server = http.createServer((req, res) => {
-  res.statusCode = 200;
-  res.setHeader('Content-Type', 'text/plain');
-  res.end('Hello World\n');
-  res.end('hello world\n');
-});
-
-server.listen(port, hostname, () => {
-  console.log(`Server running at http://${hostname}:${port}/`);
-});
+app.listen(port);
+ 
 
 
  
