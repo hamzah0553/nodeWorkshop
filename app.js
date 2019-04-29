@@ -24,10 +24,7 @@ async function callbackHell() {
 
  
       //Exersize 3: the code for finishing exersize 3 is supposed to be here
-      var book = await booksCollection.find({Title: "The Road"}).toArray();
-      var bookId = book[0]._id;
-      console.log(bookId);
-      mongoClient.db("workshop").collection("Users").update({firstname: "HEMZEH"}, {$set: {bookId: bookId}});
+      
   
   });
  }
