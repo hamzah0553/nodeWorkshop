@@ -20,7 +20,6 @@ async function callbackHell() {
 
       //Exersize 2: the code for finishing exersize 2 is supposed to be here 
       //Remember to run the insert query only once so duplication is not added
-      //mongoClient.db("workshop").collection("Users").insert({firstname: "HEMZEH", lastname: "HUSSEIN"}).toArray();
 
 
  
