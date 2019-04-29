@@ -16,13 +16,14 @@ async function callbackHell() {
   await mongoClient.connect (async err => {
 
       //Exersize 1: the code for finishing exersize 1 is here
-      booksCollection = mongoClient.db("workshop").collection("Books");
-      dataEx1 = booksCollection.find().toArray();
+
 
       //Exersize 2: the code for finishing exersize 2 is supposed to be here 
       //Remember to run the insert query only once so duplication is not added
       //mongoClient.db("workshop").collection("Users").insert({firstname: "HEMZEH", lastname: "HUSSEIN"}).toArray();
-      dataEx2 = mongoClient.db("workshop").collection("Users").find({firstname: "HEMZEH"}).toArray();
+
+
+ 
       //Exersize 3: the code for finishing exersize 3 is supposed to be here
       var book = await booksCollection.find({Title: "The Road"}).toArray();
       var bookId = book[0]._id;
